@@ -27,7 +27,12 @@ public class driver {
     System.out.println("Adding to last index of column, where a 3-letter word doesn't fit (should print false): " + SW.addWordVertical("abc",4,0));
     System.out.println("Adding a 6-letter word (doesn't fit, should print false): " + WS.addWordHorizontal("abcdef",0,0));
     System.out.println("Adding \"abc\" to last 3 slots of each column (should print true, once): " + (SW.addWordVertical("abc",2,0) && SW.addWordVertical("abc",2,1) && SW.addWordVertical("abc",2,2) && SW.addWordVertical("abc",2,3) && SW.addWordVertical("abc",2,4)));
+    System.out.println("idfk " + SW.addWordVertical("abc",1,0));
     System.out.println("\nPrinting WS (see above description)\n" + SW);
     System.out.println("\n---------------\n");
+    WordSearch SWS = new WordSearch(5,5);
+    System.out.println("idfk" + SWS.addWordVertical("abc",1,0));
+    System.out.println("Adding to a negative row index (should print false): " + SWS.addWordDiagonal("abc",-1,0));
+    System.out.println("" + SWS);
   }
 }
