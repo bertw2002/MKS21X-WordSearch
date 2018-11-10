@@ -1,8 +1,5 @@
-import java.util.Random;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.IOException;
-import java.io.File;
+import java.util.*; //random, scanner, arraylist
+import java.io.*; //file, filenotfoundexception
 public class WordSearch{
 
     private char[][]data;
@@ -17,6 +14,27 @@ public class WordSearch{
 
     //all words that were successfully added get moved into wordsAdded.
     private ArrayList<String>wordsAdded;
+
+    public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
+      try{
+        data = new char[rows][cols];
+        Scanner s = new Scanner(fileName);
+        while(s.hasNext()) {
+          wordsToAdd.add(s.next());
+        }
+        randgen = new Random(randSeed);
+        seed = randSeed;
+      } catch (FileNotFoundException e){
+        e.printStackTrace();
+        System.out.println("file" + fileName + "not found");
+
+      }
+    }
+    public WordSearch( int rows, int cols, String fileName){
+
+    }
+
+    //Both will read in the word text file, then run addAllWords(). Do not fill in random letters after.
 
     public WordSearch(int rows,int cols){
       data = new char[rows][cols];
@@ -38,9 +56,11 @@ public class WordSearch{
     public String toString(){
       String var = "";
       for (int x = 0; x < data.length; x++){
+        var += "|";
         for (int y = 0; y < data[x].length;y++){
           var+= data[x][y] + " ";
         }
+        var += "|";
         var+= "\n";
       }
       return var;
@@ -137,21 +157,8 @@ public class WordSearch{
      return true;
    }
 
-   /**Attempts to add a given word to the specified position of the WordGrid.
-  *The word is added in the direction rowIncrement,colIncrement
-  *Words must have a corresponding letter to match any letters that it overlaps.
-  *
-  *@param word is any text to be added to the word grid.
-  *@param row is the vertical locaiton of where you want the word to start.
-  *@param col is the horizontal location of where you want the word to start.
-  *@param rowIncrement is -1,0, or 1 and represents the displacement of each letter in the row direction
-  *@param colIncrement is -1,0, or 1 and represents the displacement of each letter in the col direction
-  *@return true when: the word is added successfully.
-  *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
-  *        OR there are overlapping letters that do not match
-  */
+
    private boolean addWord( int row, int col, String word, int rowIncrement, int colIncrement){
-     wordsToAdd.add(word);
      if (colIncrement == 0 && rowIncrement == 0){
        return false;
      }
