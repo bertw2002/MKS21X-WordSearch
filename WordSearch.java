@@ -16,21 +16,23 @@ public class WordSearch{
     private ArrayList<String>wordsAdded;
 
     public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
-      try{
-        data = new char[rows][cols];
-        Scanner s = new Scanner(fileName);
-        while(s.hasNext()) {
-          wordsToAdd.add(s.next());
-        }
-        randgen = new Random(randSeed);
-        seed = randSeed;
-      } catch (FileNotFoundException e){
-        e.printStackTrace();
-        System.out.println("file" + fileName + "not found");
-
+      data = new char[rows][cols];
+      File f = new File(fileName);
+      Scanner in = new Scanner(fileName);
+      while(in.hasNext()) {
+        wordsToAdd.add(in.next());
       }
+      randgen = new Random(randSeed);
     }
-    public WordSearch( int rows, int cols, String fileName){
+    public WordSearch( int rows, int cols, String fileName)throws FileNotFoundException{
+      long randSeed = System.currentTimeMillis();
+      data = new char[rows][cols];
+      File f = new File(fileName);
+      Scanner in = new Scanner(fileName);
+      while(in.hasNext()) {
+        wordsToAdd.add(in.next());
+      }
+      randgen = new Random(randSeed);
 
     }
 
@@ -189,5 +191,8 @@ public class WordSearch{
      wordsToAdd.remove(wordsToAdd.size() - 1);
      wordsAdded.add(word);
      return true;
+   }
+   private void addAllWords(){
+
    }
 }
