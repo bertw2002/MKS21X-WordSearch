@@ -160,39 +160,57 @@ public class WordSearch{
    }
 
 
-   private boolean addWord( int row, int col, String word, int rowIncrement, int colIncrement){
+   private boolean addWord( String word, int r, int c, int rowIncrement, int colIncrement){
      if (colIncrement == 0 && rowIncrement == 0){
        return false;
      }
-     if((row + rowIncrement * word.length()) < 0 || (row + rowIncrement * word.length()) > data.length){
+     if((r + rowIncrement * word.length()) < 0 || (r + rowIncrement * word.length()) > data.length){
        return false;
      }
-     if(col + word.length() * colIncrement < 0 || col + word.length() * colIncrement > data[0].length ){
+     if(c + word.length() * colIncrement < 0 || c + word.length() * colIncrement > data[0].length ){
        return false;
      }
-     int ogrow = row;
-     int ogcol = col;
+     int ogrow = r;
+     int ogcol = c;
      for (int x =0; x<word.length();x++){
-       if (data[row][col] != '_'){
-         if (data[row][col] != word.charAt(x)){
+       if (data[r][c] != '_'){
+         if (data[r][c] != word.charAt(x)){
            return false;
          }
        }
-       row += rowIncrement;
-       col += colIncrement;
+       r += rowIncrement;
+       c += colIncrement;
      }
-     row = ogrow;
-     col = ogcol;
+     r = ogrow;
+     c = ogcol;
      for (int x =0; x <word.length();x++){
-       data[row][col] = word.charAt(x);
-       row += rowIncrement;
-       col += colIncrement;
+       data[r][c] = word.charAt(x);
+       r += rowIncrement;
+       c += colIncrement;
      }
      wordsToAdd.remove(wordsToAdd.size() - 1);
      wordsAdded.add(word);
      return true;
    }
    private void addAllWords(){
-
+     ArrayList<String>randomword = wordsToAdd;
+     int whichword;
+     String word;
+     int r;
+     int c;
+     for (int x = 0; x < randomword.size();){//removed x++. idk if still work.
+      whichword = randgen.nextInt(randomword.size());
+      word = randomword.get(whichword);
+      randomword.remove(whichword);
+       for (int y = 0; y < data[0].length;y++){
+         int rowIncrement = randgen.nextInt(3) - 1;
+         int colIncrement = randgen.nextInt(3) - 1;
+         r = data.length;
+         c = data[0].length;
+         if (addWord(word,r,c, rowIncrement, colIncrement)){
+           y = data[0].length;
+         }
+       }
+     }
    }
 }

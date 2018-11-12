@@ -1,39 +1,207 @@
 public class driver {
+
   public static void main(String[] args) {
-    System.out.println("\n1. CONSTRUCTOR INITIALIZATION + TOSTRING");
-    // System.out.println("Creating a -1 x -1 WordSearch (should fail, print that it caught an exception )");
-    System.out.println("Creating a 5 x 5 WordSearch and printing (hopefully y'all know what that is supposed to look like)");
-    WordSearch WS = new WordSearch(5,5);
-    System.out.println(WS);
-    System.out.println("\n---------------\n");
 
-    System.out.println("2. ADD WORD HORIZONTAL");
-    System.out.println("Adding to a negative row index (should print false): " + WS.addWordHorizontal("abc",-1,2));
-    System.out.println("Adding to a negative column index (should print false): " + WS.addWordHorizontal("abc",0,-1));
-    System.out.println("Adding to an out of bounds row index (should print false): " + WS.addWordHorizontal("abc",10,0));
-    System.out.println("Adding to an out of bounds column index (should print false): " + WS.addWordHorizontal("abc",0,10));
-    System.out.println("Adding to last index of row, where a 3-letter word doesn't fit (should print false): " + WS.addWordHorizontal("abc",0,4));
-    System.out.println("Adding a 6-letter word (doesn't fit, should print false): " + WS.addWordHorizontal("abcdef",0,4));
-    System.out.println("Adding \"abc\" to last 3 slots of each row (should print true, once): " + (WS.addWordHorizontal("abc",0,2) && WS.addWordHorizontal("abc",1,2) && WS.addWordHorizontal("abc",2,2) && WS.addWordHorizontal("abc",3,2) && WS.addWordHorizontal("abc",4,2)));
-    System.out.println("\nPrinting WS (see above description)\n" + WS);
-    System.out.println("\n---------------\n");
+    WordSearch WSe = new WordSearch(6,10);
 
-    System.out.println("3. ADD WORD VERTICAL (with a new WordSearch! of the same dimensions!)");
-    WordSearch SW = new WordSearch(5,5);
-    System.out.println("Adding to a negative row index (should print false): " + SW.addWordVertical("abc",-1,2));
-    System.out.println("Adding to a negative column index (should print false): " + SW.addWordVertical("abc",0,-1));
-    System.out.println("Adding to an out of bounds row index (should print false): " + SW.addWordVertical("abc",10,0));
-    System.out.println("Adding to an out of bounds column index (should print false): " + SW.addWordVertical("abc",0,10));
-    System.out.println("Adding to last index of column, where a 3-letter word doesn't fit (should print false): " + SW.addWordVertical("abc",4,0));
-    System.out.println("Adding a 6-letter word (doesn't fit, should print false): " + WS.addWordHorizontal("abcdef",0,0));
-    System.out.println("Adding \"abc\" to last 3 slots of each column (should print true, once): " + (SW.addWordVertical("abc",2,0) && SW.addWordVertical("abc",2,1) && SW.addWordVertical("abc",2,2) && SW.addWordVertical("abc",2,3) && SW.addWordVertical("abc",2,4)));
-    System.out.println("idfk " + SW.addWordVertical("abc",1,0));
-    System.out.println("\nPrinting WS (see above description)\n" + SW);
-    System.out.println("\n---------------\n");
-    WordSearch SWS = new WordSearch(5,5);
-    System.out.println("idfk" + SWS.addWordVertical("abc",1,0));
-    System.out.println("Adding to a negative row index (should print false): " + SWS.addWordDiagonal("abc",-1,0));
-    System.out.println("" + SWS);
+    System.out.println("WordSearch WSe = new WordSearch(6,10)");
+    System.out.println(WSe);
+    /*
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+    */
+
+    System.out.println();
+
+    System.out.println("WSe.addWordHorizontal(\"CLOUD\",0,7)");
+    if(WSe.addWordHorizontal("CLOUD",0,7)) {
+      System.out.println("> addition success.");
+    } else {
+      System.out.println("> addition failure.");
+    }
+    // > addition failure.
+    // should fail, CLOUD is outside of bounds
+
+    System.out.println(WSe);
+    /*
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+    */
+
+    System.out.println();
+
+    System.out.println("WSe.addWordHorizontal(\"TIFA\",0,5)");
+    if(WSe.addWordHorizontal("TIFA",0,5)) {
+      System.out.println("> addition success.");
+    } else {
+      System.out.println("> addition failure.");
+    }
+    // > addition success.
+    // should succeed, TIFA is within bounds, no destructive interference
+
+    System.out.println(WSe);
+    /*
+      _ _ _ _ _ T I F A _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+    */
+
+    System.out.println("WSe.addWordHorizontal(\"REDXIII\",0,2)");
+    if(WSe.addWordHorizontal("REDXIII",0,2)) {
+      System.out.println("> addition success.");
+    } else {
+      System.out.println("> addition failure.");
+    }
+    // > addition failure.
+    // should fail, REDXIII is within bounds, yes destructive interference
+
+    System.out.println(WSe);
+    /*
+      _ _ _ _ _ T I F A _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+    */
+
+    System.out.println("WSe.addWordHorizontal(\"REDXIII\",1,0)");
+    if(WSe.addWordHorizontal("REDXIII",1,0)) {
+      System.out.println("> addition success.");
+    } else {
+      System.out.println("> addition failure.");
+    }
+    // > addition success.
+    // should succeed, REDXIII is within bounds, no destructive interference
+
+    System.out.println(WSe);
+    /*
+      _ _ _ _ _ T I F A _
+      R E D X I I I _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+    */
+
+    System.out.println("WSe.addWordHorizontal(\"BARRET\",0,0)");
+    if(WSe.addWordHorizontal("BARRET",0,0)) {
+      System.out.println("> addition success.");
+    } else {
+      System.out.println("> addition failure.");
+    }
+    // > addition success.
+    // should succeed, BARRET is within bounds, only constructive interference
+
+    System.out.println(WSe);
+    /*
+      B A R R E T I F A _
+      R E D X I I I _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+      _ _ _ _ _ _ _ _ _ _
+    */
+
+    System.out.println("WSe.addWordVertical(\"YUFFIE\",2,9)");
+    if(WSe.addWordVertical("YUFFIE",2,9)) {
+      System.out.println("> addition success.");
+    } else {
+      System.out.println("> addition failure.");
+    }
+    // > addition failure.
+    // should fail, YUFFIE is out of bounds
+
+    System.out.println(WSe);
+    /*
+    B A R R E T I F A _
+    R E D X I I I _ _ _
+    _ _ _ _ _ _ _ _ _ _
+    _ _ _ _ _ _ _ _ _ _
+    _ _ _ _ _ _ _ _ _ _
+    _ _ _ _ _ _ _ _ _ _
+    */
+
+    System.out.println("WSe.addWordVertical(\"CLOUD\",1,9)");
+    if(WSe.addWordVertical("CLOUD",1,9)) {
+      System.out.println("> addition success.");
+    } else {
+      System.out.println("> addition failure.");
+    }
+    // > addition success.
+    // should succeed, CLOUD is within bounds, no destructive interference
+
+    System.out.println(WSe);
+    /*
+      B A R R E T I F A _
+      R E D X I I I _ _ C
+      _ _ _ _ _ _ _ _ _ L
+      _ _ _ _ _ _ _ _ _ O
+      _ _ _ _ _ _ _ _ _ U
+      _ _ _ _ _ _ _ _ _ D
+    */
+
+    System.out.println("WSe.addWordVertical(\"YUFFIE\",0,9)");
+    if(WSe.addWordVertical("YUFFIE",0,9)) {
+      System.out.println("> addition success.");
+    } else {
+      System.out.println("> addition failure.");
+    }
+    // > addition failure.
+    // should fail, YUFFIE is within bounds, yes destructive interference
+
+    System.out.println(WSe);
+    /*
+      B A R R E T I F A _
+      R E D X I I I _ _ C
+      _ _ _ _ _ _ _ _ _ L
+      _ _ _ _ _ _ _ _ _ O
+      _ _ _ _ _ _ _ _ _ U
+      _ _ _ _ _ _ _ _ _ D
+    */
+
+    System.out.println("WSe.addWordVertical(\"AERITH\",0,1)");
+    if(WSe.addWordVertical("AERITH",0,1)) {
+      System.out.println("> addition success.");
+    } else {
+      System.out.println("> addition failure.");
+    }
+    // > addition success.
+    // should succeed, AERITH is within bounds, only constructive interference
+
+    System.out.println(WSe);
+    /*
+      B A R R E T I F A _
+      R E D X I I I _ _ C
+      _ R _ _ _ _ _ _ _ L
+      _ I _ _ _ _ _ _ _ O
+      _ T _ _ _ _ _ _ _ U
+      _ H _ _ _ _ _ _ _ D
+    */
+
+    // System.out.println("WSe.clear()");
+    // WSe.clear();
+    //
+    // System.out.println(WSe);
+    // /*
+    //   _ _ _ _ _ _ _ _ _ _
+    //   _ _ _ _ _ _ _ _ _ _
+    //   _ _ _ _ _ _ _ _ _ _
+    //   _ _ _ _ _ _ _ _ _ _
+    //   _ _ _ _ _ _ _ _ _ _
+    //   _ _ _ _ _ _ _ _ _ _
+    // */
+
+    }
   }
-}
-
