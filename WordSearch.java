@@ -92,7 +92,13 @@ public class WordSearch{
       var += "Words:";
       if (wordsAdded != null){
         for (int x = 0;x < wordsAdded.size(); x++){
-          var += wordsAdded.get(x);
+          if (x != wordsAdded.size() - 1){
+            var += wordsAdded.get(x);
+            var += ", ";
+          }else{
+            var += wordsAdded.get(x);
+            var += " ";
+          }
         }
       }
 
@@ -227,7 +233,6 @@ public class WordSearch{
      String word;
      int r;
      int c;
-     wordsAdded = new ArrayList<String>();
      for (int x = 0; x < wordsToAdd.size();){//removed x++. idk if still work.
       whichword = randgen.nextInt(wordsToAdd.size());
       word = wordsToAdd.get(whichword);
