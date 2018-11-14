@@ -15,29 +15,53 @@ public class WordSearch{
     //all words that were successfully added get moved into wordsAdded.
     private ArrayList<String>wordsAdded;
 
-    public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
-      data = new char[rows][cols];
-      File f = new File(fileName);
-      Scanner in = new Scanner(fileName);
-      while(in.hasNext()) {
-        wordsToAdd.add(in.next());
+    public WordSearch(int rows, int cols, String fileName, int randSeed){
+      try {
+        if (rows < 0 || cols < 0){
+          throw new IllegalArgumentException("bad row or col index");
+        }
+        wordsToAdd = new ArrayList<String>();
+        wordsAdded = new ArrayList<String>();
+        data = new char[rows][cols];
+        for (int x = 0; x < rows; x++){
+          for (int y = 0; y< cols;y++){
+            data[x][y] = '_';
+          }
+        }
+        File f = new File(fileName);
+        Scanner in = new Scanner(f);
+        while(in.hasNext()) {
+          wordsToAdd.add(in.next());
+        }
+        randgen = new Random(randSeed);
+      }catch(FileNotFoundException e){
+        System.out.println(e);
       }
-      randgen = new Random(randSeed);
     }
-    public WordSearch( int rows, int cols, String fileName)throws FileNotFoundException{
-      long randSeed = System.currentTimeMillis();
-      data = new char[rows][cols];
-      File f = new File(fileName);
-      Scanner in = new Scanner(fileName);
-      while(in.hasNext()) {
-        wordsToAdd.add(in.next());
+    public WordSearch( int rows, int cols, String fileName){
+      try {
+        wordsToAdd = new ArrayList<String>();
+        wordsAdded = new ArrayList<String>();
+        long randSeed = System.currentTimeMillis();
+        data = new char[rows][cols];
+        for (int x = 0; x < rows; x++){
+          for (int y = 0; y< cols;y++){
+            data[x][y] = '_';
+          }
+        }
+        File f = new File(fileName);
+        Scanner in = new Scanner(f);
+        while(in.hasNext()) {
+          wordsToAdd.add(in.next());
+        }
+        randgen = new Random(randSeed);
+      }catch(FileNotFoundException e){
+        System.out.println(e);
       }
-      randgen = new Random(randSeed);
-
     }
 
     //Both will read in the word text file, then run addAllWords(). Do not fill in random letters after.
-
+/*
     public WordSearch(int rows,int cols){
       data = new char[rows][cols];
       for (int x = 0; x < rows; x++){
@@ -46,7 +70,7 @@ public class WordSearch{
         }
       }
     }
-
+*/
     private void clear(){
       for (int x = 0; x < data.length; x++){
         for (int y = 0; y < data[x].length;y++){
@@ -66,7 +90,6 @@ public class WordSearch{
         var+= "\n";
       }
       var += "Words:";
-      System.out.println(wordsAdded);
       if (wordsAdded != null){
         for (int x = 0;x < wordsAdded.size(); x++){
           var += wordsAdded.get(x);
@@ -173,10 +196,10 @@ public class WordSearch{
      if (colIncrement == 0 && rowIncrement == 0){
        return false;
      }
-     if((r + rowIncrement * word.length()) < 0 || (r + rowIncrement * word.length()) > data.length){
+     if((1 + r + rowIncrement * word.length()) < 0 || (-1 + r + rowIncrement * word.length()) > data.length){
        return false;
      }
-     if(c + word.length() * colIncrement < 0 || c + word.length() * colIncrement > data[0].length ){
+     if(1 + c + word.length() * colIncrement < 0 || -1 + c + word.length() * colIncrement > data[0].length ){
        return false;
      }
      int ogrow = r;
