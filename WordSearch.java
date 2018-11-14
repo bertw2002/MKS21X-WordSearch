@@ -65,6 +65,15 @@ public class WordSearch{
         var += "|";
         var+= "\n";
       }
+      var += "Words:";
+      System.out.println(wordsAdded);
+      if (wordsAdded != null){
+        for (int x = 0;x < wordsAdded.size(); x++){
+          var += wordsAdded.get(x);
+        }
+      }
+
+
       return var;
     }
 
@@ -160,7 +169,7 @@ public class WordSearch{
    }
 
 
-   private boolean addWord( String word, int r, int c, int rowIncrement, int colIncrement){
+   public boolean addWord( String word, int r, int c, int rowIncrement, int colIncrement){ //private
      if (colIncrement == 0 && rowIncrement == 0){
        return false;
      }
@@ -188,26 +197,25 @@ public class WordSearch{
        r += rowIncrement;
        c += colIncrement;
      }
-     wordsToAdd.remove(wordsToAdd.size() - 1);
-     wordsAdded.add(word);
      return true;
    }
-   private void addAllWords(){
-     ArrayList<String>randomword = wordsToAdd;
+   public void addAllWords(){ //private
      int whichword;
      String word;
      int r;
      int c;
-     for (int x = 0; x < randomword.size();){//removed x++. idk if still work.
-      whichword = randgen.nextInt(randomword.size());
-      word = randomword.get(whichword);
-      randomword.remove(whichword);
+     wordsAdded = new ArrayList<String>();
+     for (int x = 0; x < wordsToAdd.size();){//removed x++. idk if still work.
+      whichword = randgen.nextInt(wordsToAdd.size());
+      word = wordsToAdd.get(whichword);
        for (int y = 0; y < data[0].length;y++){
          int rowIncrement = randgen.nextInt(3) - 1;
          int colIncrement = randgen.nextInt(3) - 1;
          r = data.length;
          c = data[0].length;
          if (addWord(word,r,c, rowIncrement, colIncrement)){
+           wordsAdded.add(word);
+           wordsToAdd.remove(whichword);
            y = data[0].length;
          }
        }
