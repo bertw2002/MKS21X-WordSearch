@@ -249,4 +249,15 @@ public class WordSearch{
        }
      }
    }
+   public static void main(String[] args){
+   	if (args.length == 3){
+   		Random rng = new Random();
+   		int seed = rng.nextInt() % 1001;
+   		int rows = Integer.parseInt(args[0]);
+   		int cols = Integer.parseInt(args[0]);
+   		String fileName = args[2];
+   		WordSearch puzzle = new WordSearch(rows, cols, fileName);
+   	}
+   }
+
 }
