@@ -1,4 +1,4 @@
-import java.util.*; //random, scanner, arraylist
+import java.util.*; //, scanner, arraylist
 import java.io.*; //file, filenotfoundexception
 public class WordSearch{
 
@@ -40,6 +40,9 @@ public class WordSearch{
     }
     public WordSearch( int rows, int cols, String fileName){
       try {
+        if (rows < 0 || cols < 0){
+          throw new IllegalArgumentException("bad row or col index");
+        }
         wordsToAdd = new ArrayList<String>();
         wordsAdded = new ArrayList<String>();
         long randSeed = System.currentTimeMillis();
@@ -251,12 +254,13 @@ public class WordSearch{
    }
    public static void main(String[] args){
    	if (args.length == 3){
-   		Random rng = new Random();
+   		long RandomSeed = System.currentTimeMillis();
    		int seed = rng.nextInt() % 1001;
    		int rows = Integer.parseInt(args[0]);
    		int cols = Integer.parseInt(args[0]);
    		String fileName = args[2];
    		WordSearch puzzle = new WordSearch(rows, cols, fileName);
+   		
    	}
    }
 
