@@ -1,5 +1,6 @@
-import java.util.*; //random, scanner, arraylist
+import java.util.*; //, scanner, arraylist
 import java.io.*; //file, filenotfoundexception
+
 public class WordSearch{
 
     private char[][]data;
@@ -40,9 +41,12 @@ public class WordSearch{
     }
     public WordSearch( int rows, int cols, String fileName){
       try {
+        if (rows < 0 || cols < 0){
+          throw new IllegalArgumentException("bad row or col index");
+        }
         wordsToAdd = new ArrayList<String>();
         wordsAdded = new ArrayList<String>();
-        long randSeed = System.currentTimeMillis();
+        int randSeed = (int)(Math.random() * 1001);
         data = new char[rows][cols];
         for (int x = 0; x < rows; x++){
           for (int y = 0; y< cols;y++){
@@ -101,9 +105,17 @@ public class WordSearch{
           }
         }
       }
-
-
       return var;
+    }
+    public void undertoletter(){
+      String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      for (int x = 0; x< data.length; x++){
+        for(int y = 0;y < data[0].length;y ++){
+          if (data[x][y] == '_'){
+            data[x][y] = alphabet.charAt((int)(Math.random() * 26));
+          }
+        }
+      }
     }
 
     public boolean addWordHorizontal(String word,int row, int col){
@@ -249,4 +261,45 @@ public class WordSearch{
        }
      }
    }
+   public static void main(String[] args){
+    try{
+      String directions = "";
+      directions += "You need more than 2 but less than 6 paramaters to make a word Search. \n";
+      directions += "The first parameter is number of rows, second is number of columns, third is the filename. \n";
+      directions += "You can optionally add two more: fourth being a seed, and fifth being a key to the word Search. You simply have to type key.\n";
+      if (args.length < 3){
+        System.out.println(directions);
+      }
+      else if (args.length > 5){
+        System.out.println(directions);
+      }
+      else if (args.length == 3){
+        int rows = Integer.parseInt(args[0]);
+        int cols = Integer.parseInt(args[1]);
+        String fileName = args[2];
+        WordSearch puzzle = new WordSearch(rows, cols, fileName);
+        puzzle.undertoletter();
+        System.out.println(puzzle);
+     	}
+      else if (args.length == 4){
+        int rows = Integer.parseInt(args[0]);
+        int cols = Integer.parseInt(args[1]);
+        String fileName = args[2];
+        int seed = Integer.parseInt(args[3]);
+        WordSearch puzzle = new WordSearch(rows, cols, fileName, seed);
+        puzzle.undertoletter();
+        System.out.println(puzzle);
+      }else if (args[4] == "key"){
+        int rows = Integer.parseInt(args[0]);
+        int cols = Integer.parseInt(args[1]);
+        String fileName = args[2];
+        int seed = Integer.parseInt(args[3]);
+        WordSearch puzzle = new WordSearch(rows, cols, fileName, seed);
+        System.out.println(puzzle);
+      }
+    }catch(Exception e){
+      System.out.println(directions);
+    }
+  }
+
 }
