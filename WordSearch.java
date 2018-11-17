@@ -262,6 +262,7 @@ public class WordSearch{
      }
    }
    public static void main(String[] args){
+<<<<<<< HEAD
     try{
       String directions = "";
       directions += "You need more than 2 but less than 6 paramaters to make a word Search. \n";
@@ -301,5 +302,17 @@ public class WordSearch{
       System.out.println(directions);
     }
   }
+=======
+   	if (args.length == 3){
+   		long RandomSeed = System.currentTimeMillis();
+   		int seed = rng.nextInt() % 1001;
+   		int rows = Integer.parseInt(args[0]);
+   		int cols = Integer.parseInt(args[0]);
+   		String fileName = args[2];
+   		WordSearch puzzle = new WordSearch(rows, cols, fileName);
+   		
+   	}
+   }
+>>>>>>> 19ce54623490b5668a43f79a50eb29190eaa6c7d
 
 }
