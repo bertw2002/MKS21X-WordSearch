@@ -1,6 +1,5 @@
 import java.util.*; //, scanner, arraylist
 import java.io.*; //file, filenotfoundexception
-
 public class WordSearch{
 
     private char[][]data;
@@ -21,20 +20,20 @@ public class WordSearch{
         if (rows < 0 || cols < 0){
           throw new IllegalArgumentException("bad row or col index");
         }
-        wordsToAdd = new ArrayList<String>();
-        wordsAdded = new ArrayList<String>();
+        seed = randSeed;
+        randgen = new Random();
+        randgen = new Random(seed);
         data = new char[rows][cols];
-        for (int x = 0; x < rows; x++){
-          for (int y = 0; y< cols;y++){
-            data[x][y] = '_';
-          }
-        }
+        clear();
+        wordsToAdd = new ArrayList<>();
+        wordsAdded = new ArrayList<>();
         File f = new File(fileName);
         Scanner in = new Scanner(f);
         while(in.hasNext()) {
           wordsToAdd.add(in.next());
         }
         randgen = new Random(randSeed);
+        addAllWords();
       }catch(FileNotFoundException e){
         System.out.println(e);
       }
@@ -44,21 +43,19 @@ public class WordSearch{
         if (rows < 0 || cols < 0){
           throw new IllegalArgumentException("bad row or col index");
         }
-        wordsToAdd = new ArrayList<String>();
-        wordsAdded = new ArrayList<String>();
-        int randSeed = (int)(Math.random() * 1001);
+        randgen = new Random();
+        seed = randgen.nextInt(1001);
+        randgen = new Random(seed);
         data = new char[rows][cols];
-        for (int x = 0; x < rows; x++){
-          for (int y = 0; y< cols;y++){
-            data[x][y] = '_';
-          }
-        }
+        clear();
+        wordsToAdd = new ArrayList<>();
+        wordsAdded = new ArrayList<>();
         File f = new File(fileName);
         Scanner in = new Scanner(f);
         while(in.hasNext()) {
           wordsToAdd.add(in.next());
         }
-        randgen = new Random(randSeed);
+        addAllWords();
       }catch(FileNotFoundException e){
         System.out.println(e);
       }
@@ -210,14 +207,14 @@ public class WordSearch{
    }
 
 
-   public boolean addWord( String word, int r, int c, int rowIncrement, int colIncrement){ //private
+   private boolean addWord( String word, int r, int c, int rowIncrement, int colIncrement){ //private
      if (colIncrement == 0 && rowIncrement == 0){
        return false;
      }
-     if((1 + r + rowIncrement * word.length()) < 0 || (-1 + r + rowIncrement * word.length()) > data.length){
+     if((r + rowIncrement * word.length()) < 0 || ( r + rowIncrement * word.length()) > data.length){
        return false;
      }
-     if(1 + c + word.length() * colIncrement < 0 || -1 + c + word.length() * colIncrement > data[0].length ){
+     if((c + word.length() * colIncrement < 0 )|| ( c + word.length() * colIncrement > data[0].length) ){
        return false;
      }
      int ogrow = r;
@@ -238,28 +235,34 @@ public class WordSearch{
        r += rowIncrement;
        c += colIncrement;
      }
+     wordsToAdd.remove(word);
+     wordsAdded.add(word);
      return true;
    }
-   public void addAllWords(){ //private
+   private void addAllWords(){ //private
      int whichword;
      String word;
      int r;
      int c;
-     for (int x = 0; x < wordsToAdd.size();){//removed x++. idk if still work.
-      whichword = randgen.nextInt(wordsToAdd.size());
-      word = wordsToAdd.get(whichword);
-       for (int y = 0; y < data[0].length;y++){
-         int rowIncrement = randgen.nextInt(3) - 1;
-         int colIncrement = randgen.nextInt(3) - 1;
-         r = data.length;
-         c = data[0].length;
-         if (addWord(word,r,c, rowIncrement, colIncrement)){
-           wordsAdded.add(word);
-           wordsToAdd.remove(whichword);
-           y = data[0].length;
+     int rowIncrement;
+     int colIncrement;
+     int fails = 0;
+     whichword = randgen.nextInt(wordsToAdd.size());
+     System.out.println("size" + wordsToAdd.size());
+     if (whichword < 0){
+       whichword = 0 - whichword;
+     }
+     word = wordsToAdd.get(whichword);
+       while (fails < 10000){
+         rowIncrement = randgen.nextInt(3) - 1;
+         colIncrement = randgen.nextInt(3) - 1;
+         r = randgen.nextInt(data.length);
+         c = randgen.nextInt(data[0].length);
+         System.out.println("" + rowIncrement + " " + colIncrement + " " + r + " " + c + " " + word);
+         if (!addWord(word,r,c, rowIncrement, colIncrement)){
+           fails ++;
          }
        }
-     }
    }
    public static void main(String[] args){
     String directions = "";
@@ -278,8 +281,8 @@ public class WordSearch{
         int cols = Integer.parseInt(args[1]);
         String fileName = args[2];
         WordSearch puzzle = new WordSearch(rows, cols, fileName);
-        puzzle.undertoletter();
-        System.out.println(puzzle);
+        //puzzle.undertoletter();
+        //System.out.println(puzzle);
      	}
       else if (args.length == 4){
         int rows = Integer.parseInt(args[0]);
