@@ -102,6 +102,7 @@ public class WordSearch{
           }
         }
       }
+      var += "(seed : " + seed +")";
       return var;
     }
     public void undertoletter(){
@@ -235,7 +236,10 @@ public class WordSearch{
        r += rowIncrement;
        c += colIncrement;
      }
+     System.out.println(wordsToAdd);
+     System.out.println(word);
      wordsToAdd.remove(word);
+     System.out.println(wordsToAdd);
      wordsAdded.add(word);
      return true;
    }
@@ -247,18 +251,17 @@ public class WordSearch{
      int rowIncrement;
      int colIncrement;
      int fails = 0;
-     whichword = randgen.nextInt(wordsToAdd.size());
-     System.out.println("size" + wordsToAdd.size());
-     if (whichword < 0){
-       whichword = 0 - whichword;
-     }
-     word = wordsToAdd.get(whichword);
-       while (fails < 10000){
+
+       while (fails < 1000){
+         whichword = randgen.nextInt(wordsToAdd.size());
+         if (whichword < 0){
+           whichword = 0 - whichword;
+         }
+         word = wordsToAdd.get(whichword);
          rowIncrement = randgen.nextInt(3) - 1;
          colIncrement = randgen.nextInt(3) - 1;
          r = randgen.nextInt(data.length);
          c = randgen.nextInt(data[0].length);
-         System.out.println("" + rowIncrement + " " + colIncrement + " " + r + " " + c + " " + word);
          if (!addWord(word,r,c, rowIncrement, colIncrement)){
            fails ++;
          }
@@ -281,8 +284,8 @@ public class WordSearch{
         int cols = Integer.parseInt(args[1]);
         String fileName = args[2];
         WordSearch puzzle = new WordSearch(rows, cols, fileName);
-        //puzzle.undertoletter();
-        //System.out.println(puzzle);
+        puzzle.undertoletter();
+        System.out.println(puzzle);
      	}
       else if (args.length == 4){
         int rows = Integer.parseInt(args[0]);
