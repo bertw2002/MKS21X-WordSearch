@@ -32,7 +32,6 @@ public class WordSearch{
         while(in.hasNext()) {
           wordsToAdd.add(in.next());
         }
-        randgen = new Random(randSeed);
         addAllWords();
       }catch(FileNotFoundException e){
         System.out.println(e);
@@ -44,7 +43,7 @@ public class WordSearch{
           throw new IllegalArgumentException("bad row or col index");
         }
         randgen = new Random();
-        seed = randgen.nextInt(1001);
+        seed = randgen.nextInt();
         randgen = new Random(seed);
         data = new char[rows][cols];
         clear();
@@ -77,13 +76,10 @@ public class WordSearch{
         while(in.hasNext()) {
           wordsToAdd.add(in.next());
         }
-        randgen = new Random(randSeed);
         addAllWords();
       }catch(FileNotFoundException e){
         System.out.println(e);
       }
-      clear();
-      addAllWords();
     }
 
     //Both will read in the word text file, then run addAllWords(). Do not fill in random letters after.
