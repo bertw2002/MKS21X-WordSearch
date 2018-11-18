@@ -81,23 +81,31 @@ public class WordSearch{
     }
 
     public String toString(){
+
+      String temp = "";
       String var = "";
       for (int x = 0; x < data.length; x++){
-        var += "|";
+        var += "| ";
         for (int y = 0; y < data[x].length;y++){
-          var+= data[x][y] + " ";
+
+          if (data[x][y] != '_'){
+            temp = data[x][y] + " ";
+            var += temp.toUpperCase();
+          }else{
+            var+= "  ";
+          }
         }
         var += "|";
         var+= "\n";
       }
-      var += "Words:";
+      var += "Words: ";
       if (wordsAdded != null){
         for (int x = 0;x < wordsAdded.size(); x++){
           if (x != wordsAdded.size() - 1){
-            var += wordsAdded.get(x);
+            var += wordsAdded.get(x).toUpperCase();
             var += ", ";
           }else{
-            var += wordsAdded.get(x);
+            var += wordsAdded.get(x).toUpperCase();
             var += " ";
           }
         }
@@ -215,16 +223,14 @@ public class WordSearch{
      if((r + rowIncrement * word.length()) < 0 || ( r + rowIncrement * word.length()) > data.length){
        return false;
      }
-     if((c + word.length() * colIncrement < 0 )|| ( c + word.length() * colIncrement > data[0].length) ){
+     if((c + word.length() * colIncrement < 0 )|| (c + word.length() * colIncrement > data[0].length) ){
        return false;
      }
      int ogrow = r;
      int ogcol = c;
      for (int x =0; x<word.length();x++){
-       if (data[r][c] != '_'){
-         if (data[r][c] != word.charAt(x)){
-           return false;
-         }
+       if (data[r][c] != '_' && data[r][c] != word.charAt(x)){
+        return false;
        }
        r += rowIncrement;
        c += colIncrement;
@@ -236,10 +242,7 @@ public class WordSearch{
        r += rowIncrement;
        c += colIncrement;
      }
-     System.out.println(wordsToAdd);
-     System.out.println(word);
      wordsToAdd.remove(word);
-     System.out.println(wordsToAdd);
      wordsAdded.add(word);
      return true;
    }
@@ -272,6 +275,7 @@ public class WordSearch{
     directions += "You need more than 2 but less than 6 paramaters to make a word Search. \n";
     directions += "The first parameter is number of rows, second is number of columns, third is the filename. \n";
     directions += "You can optionally add two more: fourth being a seed, and fifth being a key to the word Search. You simply have to type key.\n";
+    directions += "If you type something other than key for the fifth param, it won't show the key.\n";
     try{
       if (args.length < 3){
         System.out.println(directions);
@@ -295,13 +299,15 @@ public class WordSearch{
         WordSearch puzzle = new WordSearch(rows, cols, fileName, seed);
         puzzle.undertoletter();
         System.out.println(puzzle);
-      }else if (args[4] == "key"){
+      }else if (args[4].equals("key")){
         int rows = Integer.parseInt(args[0]);
         int cols = Integer.parseInt(args[1]);
         String fileName = args[2];
         int seed = Integer.parseInt(args[3]);
         WordSearch puzzle = new WordSearch(rows, cols, fileName, seed);
         System.out.println(puzzle);
+      }else{
+        System.out.println(directions);
       }
     }catch(Exception e){
       System.out.println(directions);
