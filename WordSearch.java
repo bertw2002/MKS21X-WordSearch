@@ -60,6 +60,31 @@ public class WordSearch{
         System.out.println(e);
       }
     }
+    public WordSearch(int rows, int cols, String fileName, int randSeed, String key){
+      try {
+        if (rows < 0 || cols < 0){
+          throw new IllegalArgumentException("bad row or col index");
+        }
+        seed = randSeed;
+        randgen = new Random();
+        randgen = new Random(seed);
+        data = new char[rows][cols];
+        clear();
+        wordsToAdd = new ArrayList<>();
+        wordsAdded = new ArrayList<>();
+        File f = new File(fileName);
+        Scanner in = new Scanner(f);
+        while(in.hasNext()) {
+          wordsToAdd.add(in.next());
+        }
+        randgen = new Random(randSeed);
+        addAllWords();
+      }catch(FileNotFoundException e){
+        System.out.println(e);
+      }
+      clear();
+      addAllWords();
+    }
 
     //Both will read in the word text file, then run addAllWords(). Do not fill in random letters after.
 /*
@@ -304,7 +329,7 @@ public class WordSearch{
         int cols = Integer.parseInt(args[1]);
         String fileName = args[2];
         int seed = Integer.parseInt(args[3]);
-        WordSearch puzzle = new WordSearch(rows, cols, fileName, seed);
+        WordSearch puzzle = new WordSearch(rows, cols, fileName, seed, "key");
         System.out.println(puzzle);
       }else{
         System.out.println(directions);
