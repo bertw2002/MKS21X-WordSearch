@@ -274,9 +274,10 @@ public class WordSearch{
      int c;
      int rowIncrement;
      int colIncrement;
+     int tries = 0;
      int fails = 0;
 
-       while (fails < 1000){
+       while (tries < 1500 && fails < 1000){
          whichword = randgen.nextInt(wordsToAdd.size());
          if (whichword < 0){
            whichword = 0 - whichword;
@@ -289,6 +290,7 @@ public class WordSearch{
          if (!addWord(word,r,c, rowIncrement, colIncrement)){
            fails ++;
          }
+         tries++;
        }
    }
    public static void main(String[] args){
