@@ -276,8 +276,7 @@ public class WordSearch{
      int colIncrement;
      int tries = 0;
      int fails = 0;
-
-       while (tries < 1500 && fails < 1000){
+       while (tries < 1500 && fails < 1000 && wordsToAdd.size() > 0){
          whichword = randgen.nextInt(wordsToAdd.size());
          if (whichword < 0){
            whichword = 0 - whichword;
@@ -333,6 +332,7 @@ public class WordSearch{
         System.out.println(directions);
       }
     }catch(Exception e){
+      e.printStackTrace();
       System.out.println(directions);
     }
   }
